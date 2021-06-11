@@ -29,14 +29,6 @@ public class JwtAspect {
         System.out.println("will begin aop");
     }
 
-//    @Before("tokenAspect()")
-//    public void doBefore() throws Exception {
-//        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-//        String token = request.getHeader("Authorization");
-//        String claims = JwtConfig.validate(token).toString();
-//        System.out.println(claims);
-//    }
-
     @Before("tokenAspect()")
     public void aspectBefor(JoinPoint joinPoint) throws Exception {
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
@@ -70,10 +62,5 @@ public class JwtAspect {
     public void aspectAfterThrowing(JoinPoint joinPoint, Exception ex) {
         System.out.println("afterThrowing 通知：" + ex.toString());
     }
-
-//    @Around(value = "tokenAspect()")
-//    public void aspectAround(JoinPoint joinPoint) {
-//        System.out.println("around 通知：" + joinPoint.getKind());
-//    }
 
 }
