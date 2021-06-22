@@ -23,4 +23,7 @@ public class SmsVerifyReq {
     @NotBlank(message = "手机号不能为空")
     @Pattern(regexp = "^(\\+?0?86\\-?)?1[345789]\\d{9}$", message = "请正确输入手机号码")
     private String mobile;
+
+//    @Pattern(regexp = "^[6|5]$", message = "输入区域码错误")
+//    private String zone = "6";
 }
