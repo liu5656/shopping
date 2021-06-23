@@ -32,18 +32,6 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR_TOKEN }}
 
-#            - name: Build and push
-#                id: docker_build
-#                uses: docker/build-push-action@v2
-#                with:
-#                  context: ./
-#                  file: ./Dockerfile
-#                  builder: ${{ steps.buildx.outputs.name }}
-#                  push: true
-#                  tags: ${{ secrets.DOCKER_HUB_USERNAME }}/simplewhale:latest
-#                  cache-from: type=local,src=/tmp/.buildx-cache
-#                  cache-to: type=local,dest=/tmp/.buildx-cache
-
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
@@ -53,6 +41,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
 #          tags: ghcr.io/usha-mandya/simplewhale:latest
+#          写错用户名会导致403
           tags: ghcr.io/${{ github.repository_owner }}/simplewhale:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
