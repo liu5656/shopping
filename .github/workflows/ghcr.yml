@@ -1,57 +1,3 @@
-#name: CI to GHCR
-#on:
-#  push:
-#     branches: [ main ]
-#
-#  workflow_dispatch:
-#
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#
-#      - name: Check Out Repo
-#        uses: actions/checkout@v2
-#
-#      - name: Set Up Docker Buildx
-#        id: buildx
-#        uses: docker/setup-buildx-action@v1
-#
-#      - name: Cache Docker layers
-#        uses: actions/cache@v2
-#        with:
-#          path: /tmp/.buildx-cache
-#          key: ${{ runner.os }}-buildx-${{ github.sha }}
-#          restore-keys: |
-#            ${{ runner.os }}-buildx-
-#
-## login to ghcr
-#      - name: Login to Docker Hub
-#        if: github.event_name != 'pull_request'
-#        uses: docker/login-action@v1
-#        with:
-#          registry: ghcr.io
-#          username: ${{ github.repository_owner }}
-#          password: ${{ secrets.ghcr_TOKEN }}
-#
-#      - name: Build and push
-#        id: docker_build
-#        uses: docker/build-push-action@v2
-#        with:
-#          context: ./
-#          file: ./Dockerfile
-#          builder: ${{ steps.buildx.outputs.name }}
-#          push: true
-#          tags: ghcr.io/usha-mandya/simplewhale:latest
-#          cache-from: type=local,src=/tmp/.buildx-cache
-#          cache-to: type=local,dest=/tmp/.buildx-cache
-#
-#      - name: Image digest
-#        run: echo ${{ steps.docker_build.outputs.digest }}
-
-
-
 name: CI to GHCR
 
 on:
@@ -86,7 +32,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          password: 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
       -
         name: Build and push
         id: docker_build
