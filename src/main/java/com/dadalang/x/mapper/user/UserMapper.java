@@ -3,6 +3,7 @@ package com.dadalang.x.mapper.user;
 import com.dadalang.x.dto.user.AccountUserDto;
 import com.dadalang.x.entity.user.Account;
 import com.dadalang.x.entity.user.User;
+import com.dadalang.x.util.masterslave.DataSource;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -15,9 +16,11 @@ import org.apache.ibatis.annotations.SelectKey;
  */
 @Mapper
 public interface UserMapper {
+    @DataSource("slave")
     @Select("select * from account where mobile=#{mobile}")
     Account findByMobile(String mobile);
 
+    @DataSource("slave")
     @Select("select " +
             "a.accountId, a.userId, a.mobile, a.created, a.updated, a.lastLoginTime, u.username, u.img " +
             "from account as a " +
@@ -26,10 +29,14 @@ public interface UserMapper {
             "where a.accountId=#{id}")
     AccountUserDto findByAccountId(String id);
 
+
+
+    @DataSource("master")
     @Insert("insert into account (userId, mobile, created, updated, lastLoginTime) values (#{userId}, #{mobile}, #{created}, #{updated}, #{lastLoginTime})")
     @SelectKey(before = false, keyColumn = "accountId", keyProperty = "accountId", statement = "select last_insert_id()", resultType = Integer.class)
     int insertAccount(Account account);
 
+    @DataSource("master")
     @Insert("insert into user (username, img) values (#{username}, #{img})")
     @SelectKey(before = false, keyColumn = "id", keyProperty = "id", statement = "select last_insert_id()", resultType = Integer.class)
     int insertUser(User user);

@@ -4,6 +4,7 @@ import com.dadalang.x.dto.user.AccountUserDto;
 import com.dadalang.x.entity.user.Account;
 import com.dadalang.x.entity.user.User;
 import com.dadalang.x.mapper.user.UserMapper;
+import com.dadalang.x.util.masterslave.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class UserService {
         // 从数据库中获取
         return new User();
     }
+
     public AccountUserDto findByAccoundId(String id) {
         return userMapper.findByAccountId(id);
     }

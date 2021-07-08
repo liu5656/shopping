@@ -38,30 +38,14 @@ public class XSchedule {
     public void test01() {
         Date date = new Date();
         System.out.println(date.toString());
-//        System.out.println("task01-start");
-//        sleep(6);
-//        System.out.println("taks01-end");
     }
-//
-//    @Scheduled(fixedDelay = 2000)
-//    public void test02() throws InterruptedException {
-//        System.out.println("task02-start");
-//        sleep(6);
-//        System.out.println("task02-end");
-//    }
-//
-//    @Scheduled(initialDelay = 2000, fixedDelay = 3000)
-//    public void test03() {
-//        System.out.println("task03-start");
-//        sleep(6);
-//        System.out.println("task03-end");
-//    }
 
-    private void sleep(long time) {
-        try{
-            TimeUnit.SECONDS.sleep(time);
-        }catch(InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+
+//    private void sleep(long time) {
+//        try{
+//            TimeUnit.SECONDS.sleep(time);
+//        }catch(InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

@@ -3,6 +3,7 @@ package com.dadalang.x.mapper.order;
 import com.dadalang.x.entity.order.Order;
 import com.dadalang.x.entity.order.OrderItem;
 import com.dadalang.x.entity.product.Product;
+import com.dadalang.x.util.masterslave.DataSource;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -14,14 +15,18 @@ import java.util.List;
  */
 @Mapper
 public interface OrderMapper {
+    @DataSource("master")
     @Insert("insert into `order` (created, state, name, address, mobile, account_id ) values (now(), #{state}, #{name}, #{address}, #{mobile}, #{accountId})")
     @SelectKey(before = false, keyColumn = "id", keyProperty = "id", statement = "select last_insert_id()", resultType = Integer.class)
     int insertOrder(Order order);
 
+    @DataSource("master")
     @Insert("insert into order_item (order_id, product_id, product_num, product_price) values (#{orderId}, #{product.id}, #{productNum}, #{price})")
     @SelectKey(before = false, keyColumn = "id", keyProperty = "id", statement = "select last_insert_id()", resultType = Integer.class)
     int insertOrderItem(OrderItem item);
 
+
+    @DataSource("slave")
     @Select("select * from `order` where account_id=#{accountId}")
     @Results({
             @Result(column = "id", property = "id"),
@@ -30,6 +35,7 @@ public interface OrderMapper {
     })
     List<Order> selectOrderByAccountId(int accountId);
 
+    @DataSource("slave")
     @Select("select * from order_item where order_id = #{orderId}")
     @Results({
             @Result(column = "id", property = "id"),
@@ -40,6 +46,7 @@ public interface OrderMapper {
     })
     List<OrderItem> selectOrderItemsByOrderId(int orderId);
 
+    @DataSource("slave")
     @Select("select * from `order` where id = #{orderId}")
     @Results({
             @Result(column = "id", property = "id"),

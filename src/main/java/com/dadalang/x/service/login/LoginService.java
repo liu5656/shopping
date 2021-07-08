@@ -1,6 +1,7 @@
 package com.dadalang.x.service.login;
 
 import com.dadalang.x.entity.SmsScene;
+import com.dadalang.x.util.masterslave.DataSource;
 import com.dadalang.x.vo.req.SmsVerifyReq;
 import com.dadalang.x.vo.req.WxReq;
 import com.dadalang.x.entity.user.Account;
@@ -31,33 +32,21 @@ public class LoginService {
     @Value("${x.redis.index.sms}")
     private int smsIndex;
 
+
     public Response loginSms(SmsVerifyReq req) {
         try{
             String code = redis.get(SmsScene.login.getRaw() + req.getMobile(), smsIndex);
             if (code.equals(req.getCode())) {
-                // 根据手机号去找用户，找到就返回
                 Account account = findByMobile(req.getMobile());
                 if (account == null) {
-                    User user = new User();
-                    // TODO 先插入用户信息，如果异常的时候回滚
-                    int result = userMapper.insertUser(user);
-
-                    account = new Account();
-                    account.setUserId(user.getId());
-
-                    // 再插入账户信息
-                    account.setMobile(req.getMobile());
-                    result = userMapper.insertAccount(account);
+                    account = insertUser(req.getMobile());
                 }
-                // 未找到就创建用户
 
                 Map<String, String> content = new HashMap<>();
                 content.put("mobile", account.getMobile());
                 content.put("accountId", String.valueOf(account.getAccountId()));
                 String token = JwtConfig.token(content);
-
                 Response res = Response.success(token);
-                System.out.println(res.toString());
                 return res;
             }else{
                 return Response.failed("wrong code","验证码错误");
@@ -78,6 +67,21 @@ public class LoginService {
     private Account findByMobile(String mobile) {
         return userMapper.findByMobile(mobile);
     }
+
+    private Account insertUser(String mobile) {
+        User user = new User();
+        // TODO 先插入用户信息，如果异常的时候回滚
+        int result = userMapper.insertUser(user);
+
+        Account account = new Account();
+        account.setUserId(user.getId());
+
+        // 再插入账户信息
+        account.setMobile(mobile);
+        result = userMapper.insertAccount(account);
+        return account;
+    }
+
     private User findByWxId(String id) {
         return new User();
     }

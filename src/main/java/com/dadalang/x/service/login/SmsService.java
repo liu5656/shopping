@@ -46,7 +46,7 @@ public class SmsService {
         redis.set(scene.getRaw() + mobile, code, smsIndex, 300);
 
         System.out.println("did sended to mobile:" + mobile + " and code:" + code);
-        return Response.success(code + "-x");
+        return Response.success(code);
     }
 
 
