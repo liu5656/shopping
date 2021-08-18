@@ -4,6 +4,7 @@ import com.dadalang.x.entity.user.User;
 import com.dadalang.x.util.tools.DateEx;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  * @desc
  */
 @Data
-public class Order {
+public class Order implements Serializable {
     private int id;
 
     private int state;                          // 订单状态：1未付款，2已付款，未发货，3已发货，没收货，4收货，订单结束

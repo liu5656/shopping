@@ -1,7 +1,9 @@
 package com.dadalang.x.controller.test;
 
 import com.dadalang.x.service.push.GetTui;
+import com.dadalang.x.service.rmq.MqSender;
 import com.dadalang.x.vo.res.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class TestController {
 
     private GetTui getTui;
+
+    @Autowired MqSender mqSender;
 
     @GetMapping("/getui")
     public Response createToken() throws Exception{
@@ -42,5 +46,11 @@ public class TestController {
     public Response all(@PathVariable String title, @PathVariable String body) throws Exception {
         String result = getTui.all(title, body);
         return Response.success(result);
+    }
+
+    @GetMapping("/mq/send/{mes}")
+    public Response mqSend(@PathVariable String mes){
+        mqSender.send(mes);
+        return Response.success();
     }
 }

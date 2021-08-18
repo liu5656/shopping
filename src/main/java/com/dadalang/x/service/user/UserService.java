@@ -5,6 +5,7 @@ import com.dadalang.x.entity.user.Account;
 import com.dadalang.x.entity.user.User;
 import com.dadalang.x.mapper.user.UserMapper;
 import com.dadalang.x.util.masterslave.DataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
  * @date 2021/5/24 6:00 下午
  * @desc
  */
+@Slf4j
 @Service
 public class UserService {
 
@@ -25,6 +27,11 @@ public class UserService {
     }
 
     public AccountUserDto findByAccoundId(String id) {
-        return userMapper.findByAccountId(id);
+        AccountUserDto userDto = userMapper.findByAccountId(id);
+        log.info("写入日志123");
+        log.error("错误日志");
+        log.warn("警告日志");
+        log.debug("debug日志");
+        return userDto;
     }
 }
