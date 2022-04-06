@@ -41,7 +41,6 @@ public class LoginService {
                 if (account == null) {
                     account = insertUser(req.getMobile());
                 }
-
                 Map<String, String> content = new HashMap<>();
                 content.put("mobile", account.getMobile());
                 content.put("accountId", String.valueOf(account.getAccountId()));

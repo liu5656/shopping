@@ -22,8 +22,8 @@ import java.util.List;
 public class TaobaoTest {
 
     private String url = "https://eco.taobao.com/router/rest";
-    private String appkey = "";
-    private String secret = "";
+    private String appkey = "28337341";
+    private String secret = "d3618658c07ac557fb9e86a16f383b8c";
 
     // 不用授权的接口
 
